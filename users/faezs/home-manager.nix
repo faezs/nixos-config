@@ -8,6 +8,7 @@
     pkgs.firefox
     pkgs.glances
     pkgs.ripgrep
+    pkgs.emacs
   ];
 
   home.sessionVariables = {
