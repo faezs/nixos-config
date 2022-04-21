@@ -19,7 +19,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Define your hostname.
-  networking.hostName = "dev";
+  networking.hostName = "qrn";
 
   # Set your time zone.
   time.timeZone = "Asia/Karachi";
