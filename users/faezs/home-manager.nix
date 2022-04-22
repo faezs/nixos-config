@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
-
 {
+
   xdg.enable = true;
 
   home.packages = [
@@ -11,7 +11,7 @@
     pkgs.agda
     pkgs.emacs
   ];
-xs
+
   home.sessionVariables = {
     LANG = "en_US.UTF-8";
     LC_CTYPE = "en_US.UTF-8";
@@ -22,12 +22,11 @@ xs
 
   programs.kitty = {
     enable = true;
-    theme = "Tokyo Night";
     font = {
       name = "Monaco";
       size = 14;
     };
-  }
+  };
   
   programs.bash = {
     enable = true;
