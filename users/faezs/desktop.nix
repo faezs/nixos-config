@@ -40,7 +40,7 @@
     displayManager = {
       lightdm.enable = true;
       sessionCommands = ''
-        ${pkgs.org.xrdb}/bin/xrdb -merge <<EOF
+        ${pkgs.xorg.xrdb}/bin/xrdb -merge <<EOF
             Xft.dpi: 192
 	    Xcursor.theme: Adawaita
 	    Xcursor.size: 64
@@ -56,7 +56,7 @@
         hpkgs.xmonad-extras
       ];
       # enableContribAndExtras = true;  -- using our own
-      config = pkgs.lib.readFile "./xmonad-conf/Main.hs";
+      config = pkgs.lib.readFile ./xmonad-conf/Main.hs;
     };
   };
   services.xserver.displayManager.defaultSession = "none+xmonad";
