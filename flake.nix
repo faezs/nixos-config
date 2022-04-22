@@ -2,12 +2,13 @@
   description = "NixOS systems - Faez Shakil";
 
   inputs = {
-     nixpkgs.url = "github:nixos/nixpkgs/5181d5945eda382ff6a9ca3e072ed6ea9b547fee";
+     nixpkgs.url = "github:nixos/nixpkgs/bacbfd713b4781a4a82c1f390f8fe21ae3b8b95b";
+     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
      nixos-hardware.url = github:NixOS/nixos-hardware/master;
-     home-manager.url = "github:nix-community/home-manager";
+     home-manager.url = "github:nix-community/home-manager/release-21.11";
      home-manager.inputs.nixpkgs.follows = "nixpkgs";
-     emacs-overlay.url = "github:nix-community/emacs-overlay";	
+     emacs-overlay.url = "github:nix-community/emacs-overlay";
      nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
      nixos-shell.url = "github:Mic92/nixos-shell";
   };
