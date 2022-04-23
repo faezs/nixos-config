@@ -80,7 +80,36 @@
     '')
   ];
 
+  services.xserver = {
+    enable = true;
+    
+    displayManager = {
+      defaultSession = "none+xmonad";
+      lightdm.enable = true;
+      sessionCommands = ''
+        ${pkgs.xlibs.xset}/bin/xset r rate 200 40
+      ''+(if currentSystem == "aarch64-linux" then ''
+        ${pkgs.xorg.xrandr}/bin/xrandr -s '2880x1800'
+      '' else "");
+    };
 
+    desktopManager = {
+      xterm.enable = false;
+      wallpaper.mode = "scale";
+    };
+    windowManager.xmonad = {
+      enable = true;
+      haskellPackages = pkgs.haskellPackages.extend
+        (import ../users/faezs/xmonad-conf/overlay.nix { inherit pkgs; });
+      extraPackages = hpkgs: with pkgs.haskell.lib; [
+        hpkgs.xmonad-contrib
+        hpkgs.xmonad-extras
+      ];
+      # enableContribAndExtras = true;  -- using our own
+      config = pkgs.lib.readFile ../users/faezs/xmonad-conf/Main.hs;
+    };
+  };
+  
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.passwordAuthentication = true;

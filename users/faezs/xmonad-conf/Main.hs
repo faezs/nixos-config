@@ -24,7 +24,7 @@ main = do
   where
     cfg =
       def
-        { modMask = mod4Mask, -- Use Super instead of Alt (Using Alt messes up bash shortcuts)
+        { -- modMask = mod4Mask, -- Use Super instead of Alt (Using Alt messes up bash shortcuts)
           terminal = "alacritty", -- "myst",
           layoutHook =
             borderSpacingBetweenWindows $
@@ -44,7 +44,7 @@ main = do
     myTabbed :: ModifiedLayout (Decoration TabbedDecoration DefaultShrinker) Simplest.Simplest Window
     myTabbed =
       -- FIXME: This doesn't work reliably.
-      tabbed shrinkText $ def {decoHeight = 10, activeColor = "#50CBE8", fontName = "xft:Consolas:size=12"}
+      tabbed shrinkText $ def {decoHeight = 10, activeColor = "#50CBE8", fontName = "xft:Consolas:size=15"}
 
     pointerFollowsFocus =
       let centerOfWindow = ((0.5, 0.5), (0, 0))

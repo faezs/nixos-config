@@ -20,6 +20,17 @@
     PAGER = "less -FirSwX";
   };
 
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      env.TERM = "xterm-256color";
+
+      key_bindings = [
+        { key = "Equals"; mods = "Command"; action = "IncreaseFontSize"; }
+	{ key = "Minus"; mods = "Command"; action = "DecreaseFontSize"; }
+      ];
+    };
+  };
   programs.kitty = {
     enable = true;
     font = {

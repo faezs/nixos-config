@@ -2,13 +2,12 @@
 # nix-channel's nixpkgs.
 { pkgs ? import <nixpkgs> { } }:
 let
-  inherit (import ./dep/gitignoresrc { inherit (pkgs) lib; }) gitignoreSource;
   haskellOverlays = import ./overlay.nix { inherit pkgs; };
 in
 # FIXME: overlays not working
 (pkgs.haskellPackages.extend haskellOverlays).developPackage {
   name = "xmonad-conf";
-  root = gitignoreSource ./.;
+  root = ./.;
   modifier = drv:
     pkgs.haskell.lib.addBuildTools drv (with pkgs.haskellPackages;
     [

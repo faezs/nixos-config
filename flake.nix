@@ -18,6 +18,9 @@
 
     overlays = [
       inputs.emacs-overlay.overlay
+      (final: prev: {
+        kitty = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.kitty;
+      })
     ];
   in {
      nixosConfigurations.vm-aarch64 = mkVM "vm-aarch64" rec {
