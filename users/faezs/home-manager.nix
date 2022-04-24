@@ -1,15 +1,17 @@
 { config, lib, pkgs, ... }:
 
-{
+let
+  agda = pkgs.agda.withPackages (p: [ p.standard-library ]);
+in
 
-  xdg.enable = true;
+{ xdg.enable = true;
 
   home.packages = [
+    pkgs.emacs
     pkgs.firefox
     pkgs.glances
     pkgs.ripgrep
-    pkgs.agda
-    pkgs.emacs
+    agda
   ];
 
   home.sessionVariables = {
@@ -23,11 +25,9 @@
   programs.alacritty = {
     enable = true;
     settings = {
-      env.TERM = "xterm-256color";
-
+      # env.TERM = "xterm-256color";
       key_bindings = [
         { key = "Equals"; mods = "Command"; action = "IncreaseFontSize"; }
-	{ key = "Minus"; mods = "Command"; action = "DecreaseFontSize"; }
       ];
     };
   };
@@ -38,6 +38,11 @@
       size = 14;
     };
   };
+
+  # programs.doom-emacs = {
+  #   enable = true;
+  #   doomPrivateDir = ./config/doom.d;
+  # };
   
   programs.bash = {
     enable = true;
