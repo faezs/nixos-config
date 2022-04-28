@@ -12,6 +12,8 @@ in
     pkgs.glances
     pkgs.ripgrep
     agda
+    pkgs.wget
+    pkgs.curl
   ];
 
   home.sessionVariables = {
@@ -25,7 +27,7 @@ in
   programs.alacritty = {
     enable = true;
     settings = {
-      # env.TERM = "xterm-256color";
+      env.TERM = "xterm-256color";
       key_bindings = [
         { key = "Equals"; mods = "Command"; action = "IncreaseFontSize"; }
       ];
@@ -39,10 +41,10 @@ in
     };
   };
 
-  # programs.doom-emacs = {
-  #   enable = true;
-  #   doomPrivateDir = ./config/doom.d;
-  # };
+  services.polybar = {
+    enable = true;
+    script = "polybar bar &";
+  };
   
   programs.bash = {
     enable = true;
@@ -61,6 +63,7 @@ in
     enable = true;
     enableBashIntegration = true;
     nix-direnv.enable = true;
+    nix-direnv.enableFlakes = true;
     config = {
       whitelist = {
         prefix = [
