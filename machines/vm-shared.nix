@@ -60,7 +60,8 @@
     niv
     rxvt_unicode
     xclip
-
+    zip
+    unzip
     # This is needed for the vmware user tools clipboard to work.
     # You can test if you don't need this by deleting this and seeing
     # if the clipboard sill works.
@@ -70,27 +71,34 @@
     # my big monitor it doesn't detect the resolution either so we just
     # manualy create the resolution and switch to it with this script.
     # This script could be better but its hopefully temporary so just force it.
-    (writeShellScriptBin "xrandr-6k" ''
-      xrandr --newmode "6016x3384_60.00"  1768.50  6016 6544 7216 8416  3384 3387 3392 3503 -hsync +vsync
-      xrandr --addmode Virtual-1 6016x3384_60.00
-      xrandr -s 6016x3384_60.00
-    '')
+    # (writeShellScriptBin "xrandr-6k" ''
+    #   xrandr --newmode "6016x3384_60.00"  1768.50  6016 6544 7216 8416  3384 3387 3392 3503 -hsync +vsync
+    #   xrandr --addmode Virtual-1 6016x3384_60.00
+    #   xrandr -s 6016x3384_60.00
+    # '');
     (writeShellScriptBin "xrandr-mbp" ''
-      xrandr -s 2880x1800
+      xrandr --newmode "3456x2234_60.00"  664.00  3456 3744 4120 4784  2234 2237 2247 2314 -hsync +vsync
+      xrandr --addmode Virtual-1 "3456x2234_60.00"
+      xrandr -s 3456x2234_60.00
     '')
   ];
 
-  environment.pathsToLink = [ "/share/agda" ];
+  environment.variables = {
+    GDK_SCALE = "2";
+    GDK_DPI_SCALE = "0.5";
+  };
+  
   services.xserver = {
     enable = true;
-    
+    dpi = 244;
+
     displayManager = {
       defaultSession = "none+xmonad";
       lightdm.enable = true;
       sessionCommands = ''
         ${pkgs.xlibs.xset}/bin/xset r rate 200 40
       ''+(if currentSystem == "aarch64-linux" then ''
-        ${pkgs.xorg.xrandr}/bin/xrandr -s '2880x1800'
+        ${pkgs.xorg.xrandr}/bin/xrandr -s '3456x2234'
       '' else "");
     };
 
