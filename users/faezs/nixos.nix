@@ -1,10 +1,6 @@
 { pkgs, ... }:
 
-{
-  imports = [
-    ./desktop.nix
-    ];
-  # https://github.com/nix-community/home-manager/pull/2408
+{ # https://github.com/nix-community/home-manager/pull/2408
   # environment.pathsToLink = [ "/share/fish" ];
 
   users.mutableUsers = true;
