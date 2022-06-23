@@ -4,6 +4,8 @@
   inputs = {
      nixpkgs.url = "github:nixos/nixpkgs/bacbfd713b4781a4a82c1f390f8fe21ae3b8b95b";
      nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+     agda-nixpkgs.url = "github:nixos/nixpkgs/1ffba9f2f683063c2b14c9f4d12c55ad5f4ed887";
+     
 
      nixos-hardware.url = github:NixOS/nixos-hardware/master;
      home-manager.url = "github:nix-community/home-manager/release-21.11";
@@ -20,6 +22,7 @@
       inputs.emacs-overlay.overlay
       (final: prev: {
         kitty = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.kitty;
+        agda = inputs.agda-nixpkgs.legacyPackages.${prev.system}.agda;
       })
     ];
   in {

@@ -1,9 +1,19 @@
 { config, lib, pkgs, ... }:
 
 let
-  agda = pkgs.agda.withPackages (p: [ p.standard-library ]);
+  agda = pkgs.agda.withPackages (p: [
+    (p.standard-library.overrideAttrs (oldAttrs: {
+      version = "2.0";
+      src =  pkgs.fetchFromGitHub {
+        repo = "agda-stdlib";
+        owner = "agda";
+        rev = "6e79234dcd47b7ca1d232b16c9270c33ff42fb84";
+        sha256 = "0n1xksqz0d2vxd4l45mxkab2j9hz9g291zgkjl76h5cn0p9wylk3";
+      };
+    }))
+    p.agda-categories
+  ]);
 in
-
 { xdg.enable = true;
 
   home.packages = [
@@ -14,6 +24,9 @@ in
     agda
     pkgs.wget
     pkgs.curl
+    pkgs.dmenu
+    pkgs.zathura
+    pkgs.cachix
   ];
 
   home.sessionVariables = {
@@ -25,7 +38,7 @@ in
   };
 
   programs.alacritty = {
-    enable = true;
+    enable = false;
     settings = {
       env.TERM = "xterm-256color";
       key_bindings = [
@@ -39,6 +52,11 @@ in
       name = "Monaco";
       size = 14;
     };
+  };
+  
+  programs.rofi = {
+    enable = false;
+    terminal = "${pkgs.kitty}/bin/kitty";
   };
 
   services.polybar = {
