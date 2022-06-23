@@ -24,8 +24,8 @@ main = do
   where
     cfg =
       def
-        { -- modMask = mod4Mask, -- Use Super instead of Alt (Using Alt messes up bash shortcuts)
-          terminal = "alacritty", -- "myst",
+        { modMask = mod4Mask, -- Use Super instead of Alt (Using Alt messes up bash shortcuts)
+          terminal = "kitty", -- "alacritty", -- "myst",
           layoutHook =
             borderSpacingBetweenWindows $
               avoidStruts $ myThreeCol ||| myTabbed ||| layoutHook def,
