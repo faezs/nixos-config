@@ -27,6 +27,7 @@ in
     pkgs.dmenu
     pkgs.zathura
     pkgs.cachix
+    pkgs.stack
   ];
 
   home.sessionVariables = {

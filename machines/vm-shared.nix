@@ -9,6 +9,9 @@
     package = pkgs.nixFlakes;
     extraOptions = lib.optionalString (config.nix.package == pkgs.nixFlakes)
      "experimental-features = nix-command flakes";
+    trustedUsers = [ "root" "faezs" ];
+    binaryCaches = ["https://cache.garnix.io" "https://nixcache.reflex-frp.org" ];
+    binaryCachePublicKeys = ["cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" ];
    };
 
   # We expect to run the VM on hidpi machines.
@@ -84,13 +87,19 @@
   ];
 
   environment.variables = {
-    GDK_SCALE = "2";
+    GDK_SCALE = "0.5";
     GDK_DPI_SCALE = "0.5";
   };
   
   services.xserver = {
     enable = true;
-    dpi = 244;
+    dpi = 254;
+
+    resolutions = [
+      { x = 3456;
+        y = 2234;
+      }
+    ];
 
     displayManager = {
       defaultSession = "none+xmonad";
@@ -106,6 +115,7 @@
       xterm.enable = true;
       wallpaper.mode = "scale";
     };
+    
     windowManager.xmonad = {
       enable = true;
       haskellPackages = pkgs.haskellPackages.extend
