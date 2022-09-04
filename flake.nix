@@ -31,6 +31,11 @@
        system = "aarch64-linux";
        user = "faezs";
      };
+     nixosConfigurations.vm-x86_64 = mkVM "vm-x86_64" rec {
+       inherit overlays nixpkgs home-manager;
+       system = "x86_64-linux";
+       user = "faezs";
+     };
 
   };
 }
