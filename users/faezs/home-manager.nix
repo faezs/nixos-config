@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
 
 let
   agda = pkgs.agda.withPackages (p: [
@@ -14,7 +14,9 @@ let
     p.agda-categories
   ]);
 in
-{ xdg.enable = true;
+{
+  imports = [ inputs.nix-doom-emacs.hmModule ];
+  xdg.enable = true;
 
   home.packages = [
     pkgs.emacs
@@ -54,7 +56,12 @@ in
       size = 14;
     };
   };
-  
+
+  doom-emacs = {
+    enable = true;
+    doomPrivateDir = ./conf/doom.d;
+  };
+
   programs.rofi = {
     enable = false;
     terminal = "${pkgs.kitty}/bin/kitty";
