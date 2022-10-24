@@ -37,5 +37,10 @@
        user = "faezs";
      };
 
+     nixosConfigurations.vm-x86_64-utm = mkVM "vm-x86_64-utm" rec {
+       inherit overlays nixpkgs home-manager inputs;
+       system = "x86_64-linux";
+       user = "faezs";
+     };
   };
 }
