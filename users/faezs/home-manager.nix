@@ -1,4 +1,4 @@
-{ inputs, config, lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   agda = pkgs.agda.withPackages (p: [
@@ -15,11 +15,9 @@ let
   ]);
 in
 {
-  imports = [ inputs.nix-doom-emacs.hmModule ];
   xdg.enable = true;
 
   home.packages = [
-    pkgs.emacs
     pkgs.firefox
     pkgs.glances
     pkgs.ripgrep
@@ -57,9 +55,9 @@ in
     };
   };
 
-  doom-emacs = {
+  programs.doom-emacs = {
     enable = true;
-    doomPrivateDir = ./conf/doom.d;
+    doomPrivateDir = ../../conf/doom.d;
   };
 
   programs.rofi = {

@@ -10,8 +10,8 @@
     extraOptions = lib.optionalString (config.nix.package == pkgs.nixFlakes)
      "experimental-features = nix-command flakes";
     trustedUsers = [ "root" "faezs" ];
-    binaryCaches = ["https://cache.garnix.io" "https://nixcache.reflex-frp.org" ];
-    binaryCachePublicKeys = ["cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" ];
+    binaryCaches = ["https://cache.garnix.io" "https://nixcache.reflex-frp.org"  "https://cache.iog.io" "https://cache.nixos.org"  "https://private-orbis-tertius.cachix.org" ];
+    binaryCachePublicKeys = ["cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "private-orbis-tertius.cachix.org-1:IMxbOfAbnx9CJn468/itACeSFn8oQiKiNvj1O3p9rqk=" ];
    };
 
   # We expect to run the VM on hidpi machines.
@@ -69,7 +69,9 @@
     # You can test if you don't need this by deleting this and seeing
     # if the clipboard sill works.
     gtkmm3
-
+    rustc
+    cargo
+    tailscale
     # VMware on M1 doesn't support automatic resizing yet and on
     # my big monitor it doesn't detect the resolution either so we just
     # manualy create the resolution and switch to it with this script.
@@ -137,7 +139,7 @@
   # Disable the firewall since we're in a VM and we want to make it
   # easy to visit stuff in here. We only use NAT networking anyways.
   networking.firewall.enable = false;
-
+  services.tailscale.enable = true;
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

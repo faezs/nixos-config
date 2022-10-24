@@ -15,7 +15,7 @@
      nixos-shell.url = "github:Mic92/nixos-shell";
   };
   
-  outputs = inputs@{ self, nixpkgs, home-manager, ... }: let
+  outputs = inputs@{ self, nixpkgs, home-manager, nix-doom-emacs, ... }: let
     mkVM = import ./lib/mkvm.nix;
 
     overlays = [
@@ -27,12 +27,12 @@
     ];
   in {
      nixosConfigurations.vm-aarch64 = mkVM "vm-aarch64" rec {
-       inherit overlays nixpkgs home-manager;
+       inherit overlays nixpkgs home-manager inputs;
        system = "aarch64-linux";
        user = "faezs";
      };
      nixosConfigurations.vm-x86_64 = mkVM "vm-x86_64" rec {
-       inherit overlays nixpkgs home-manager;
+       inherit overlays nixpkgs home-manager inputs;
        system = "x86_64-linux";
        user = "faezs";
      };
