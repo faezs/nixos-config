@@ -1,17 +1,28 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 let
   agda = pkgs.agda.withPackages (p: [
-    (p.standard-library.overrideAttrs (oldAttrs: {
-      version = "2.0";
-      src =  pkgs.fetchFromGitHub {
-        repo = "agda-stdlib";
-        owner = "agda";
-        rev = "6e79234dcd47b7ca1d232b16c9270c33ff42fb84";
-        sha256 = "0n1xksqz0d2vxd4l45mxkab2j9hz9g291zgkjl76h5cn0p9wylk3";
-      };
-    }))
+    p.standard-library
     p.agda-categories
+    (p.mkDerivation {
+      pname = "agda-unimath";
+      version = "1.0.0";
+      src = inputs.agda-unimath;
+      meta = {};
+      preBuild = "make src/everything.lagda.md";
+      everythingFile = "./src/everything.lagda.md";
+      libraryFile = "agda-unimath.agda-lib";
+    })
+    (p.mkDerivation {
+      pname = "hardware";
+      version = "1.0.0";
+      src = inputs.denotational-hardware;
+      meta = {};
+      libraryFile = "hardware.agda-lib";
+      buildInputs = [
+        p.standard-library
+      ];
+    })
   ]);
 in
 {
@@ -69,7 +80,7 @@ in
     enable = true;
     script = "polybar bar &";
   };
-  
+
   programs.bash = {
     enable = true;
     shellOptions = [];
@@ -91,10 +102,10 @@ in
     config = {
       whitelist = {
         prefix = [
-	  "$HOME/platonic/snoiks"
-	  "$HOME/ee/chopaan"
-	];
-	exact = ["$HOME/.envrc"];
+	        "$HOME/platonic/snoiks"
+	        "$HOME/ee/chopaan"
+	      ];
+	      exact = ["$HOME/.envrc"];
       };
     };
   };
