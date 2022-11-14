@@ -13,6 +13,9 @@
      emacs-overlay.url = "github:nix-community/emacs-overlay";
      nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
      nixos-shell.url = "github:Mic92/nixos-shell";
+     agda-stdlib = { url = "github:agda/agda-stdlib"; flake = false; };
+     agda-unimath = { url = "github:UniMath/agda-unimath"; flake = false; };
+     denotational-hardware = { url = "github:conal/denotational-hardware"; flake = false; };
   };
   
   outputs = inputs@{ self, nixpkgs, home-manager, nix-doom-emacs, ... }: let
