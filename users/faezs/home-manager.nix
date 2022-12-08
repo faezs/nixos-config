@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, ... }:
+{ pkgs, flakes, ... }:
 
 let
   agda = pkgs.agda.withPackages (p: [
@@ -7,7 +7,7 @@ let
     (p.mkDerivation {
       pname = "agda-unimath";
       version = "1.0.0";
-      src = inputs.agda-unimath;
+      src = flakes.agda-unimath;
       meta = {};
       preBuild = "make src/everything.lagda.md";
       everythingFile = "./src/everything.lagda.md";
@@ -16,7 +16,7 @@ let
     (p.mkDerivation {
       pname = "hardware";
       version = "1.0.0";
-      src = inputs.denotational-hardware;
+      src = flakes.denotational-hardware;
       meta = {};
       libraryFile = "hardware.agda-lib";
       buildInputs = [
@@ -98,7 +98,6 @@ in
     enable = true;
     enableBashIntegration = true;
     nix-direnv.enable = true;
-    nix-direnv.enableFlakes = true;
     config = {
       whitelist = {
         prefix = [

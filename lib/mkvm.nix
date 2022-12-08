@@ -22,18 +22,12 @@ nixpkgs.lib.nixosSystem rec {
           inputs.nix-doom-emacs.hmModule
           ../users/${user}/home-manager.nix
         ];
+        home.stateVersion = "22.05";
+      };
+      home-manager.extraSpecialArgs = {
+        flakes = inputs;
       };
     }
-    ({ config, lib, ... }: {
-      options.home-manager.users = lib.mkOption {
-        type = with lib.types; attrsOf (submoduleWith {
-          specialArgs = { super = config; inherit inputs; };
-        });
-      };
-    })
   ];
-
-  extraArgs = {
-    currentSystem = system;
-  };
+  extraArgs = { currentSystem = system; };
 }

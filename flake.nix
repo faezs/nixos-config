@@ -8,8 +8,7 @@
      
 
      nixos-hardware.url = github:NixOS/nixos-hardware/master;
-     home-manager.url = "github:nix-community/home-manager/release-21.11";
-     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+     home-manager.url = "github:nix-community/home-manager";
      emacs-overlay.url = "github:nix-community/emacs-overlay";
      nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
      nixos-shell.url = "github:Mic92/nixos-shell";
@@ -30,18 +29,21 @@
     ];
   in {
      nixosConfigurations.vm-aarch64 = mkVM "vm-aarch64" rec {
-       inherit overlays nixpkgs home-manager inputs;
+       inherit overlays home-manager inputs;
+       nixpkgs = inputs.nixpkgs-unstable;
        system = "aarch64-linux";
        user = "faezs";
      };
      nixosConfigurations.vm-x86_64 = mkVM "vm-x86_64" rec {
-       inherit overlays nixpkgs home-manager inputs;
+       inherit overlays home-manager inputs;
+       nixpkgs = inputs.nixpkgs-unstable;
        system = "x86_64-linux";
        user = "faezs";
      };
 
      nixosConfigurations.vm-x86_64-utm = mkVM "vm-x86_64-utm" rec {
-       inherit overlays nixpkgs home-manager inputs;
+       inherit overlays home-manager inputs;
+       nixpkgs = inputs.nixpkgs-unstable;
        system = "x86_64-linux";
        user = "faezs";
      };

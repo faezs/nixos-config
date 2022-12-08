@@ -107,7 +107,7 @@
       defaultSession = "none+xmonad";
       lightdm.enable = true;
       sessionCommands = ''
-        ${pkgs.xlibs.xset}/bin/xset r rate 200 40
+        ${pkgs.xorg.xset}/bin/xset r rate 200 40
       ''+(if currentSystem == "aarch64-linux" then ''
         ${pkgs.xorg.xrandr}/bin/xrandr -s '3456x2234'
       '' else "");
