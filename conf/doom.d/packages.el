@@ -56,7 +56,7 @@
 ;; you can utilize :map :hook and :config to customize copilot
 
 (package! copilot
-  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
+  :recipe (:host github :repo "zerolfx/copilot.el" :local-repo "copilot.el" :files ("*.el" "dist")))
 
 
 (provide packages)
