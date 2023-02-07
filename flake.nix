@@ -15,6 +15,7 @@
      agda-stdlib = { url = "github:agda/agda-stdlib"; flake = false; };
      agda-unimath = { url = "github:UniMath/agda-unimath"; flake = false; };
      denotational-hardware = { url = "github:conal/denotational-hardware"; flake = false; };
+     copilot-el = { url = "github:zerolfx/copilot.el"; flake = false; };
   };
   
   outputs = inputs@{ self, nixpkgs, home-manager, nix-doom-emacs, ... }: let

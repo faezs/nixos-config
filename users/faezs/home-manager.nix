@@ -39,6 +39,7 @@ in
     pkgs.zathura
     pkgs.cachix
     pkgs.stack
+    pkgs.nodejs
   ];
 
   home.sessionVariables = {
@@ -69,6 +70,15 @@ in
   programs.doom-emacs = {
     enable = true;
     doomPrivateDir = ../../conf/doom.d;
+    emacsPackagesOverlay = self: super: {
+        copilot = self.trivialBuild {
+          pname = "copilot";
+          ename = "copilot";
+          version = "0.0.0";
+	        buildInputs = [ self.s self.dash self.editorconfig self.jsonrpc ];
+          src = flakes.copilot-el;
+        };
+      };
   };
 
   programs.rofi = {

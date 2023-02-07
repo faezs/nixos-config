@@ -48,6 +48,22 @@
         "type": "github"
       }
     },
+    "copilot-el": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1675730258,
+        "narHash": "sha256-/f9b4y/oOX4D8Oeb0ge2pPY3MpASAVf0Rb/cTJHjlQw=",
+        "owner": "zerolfx",
+        "repo": "copilot.el",
+        "rev": "b91a7f3d48f3ef7d752f60db562be99f1a85f68b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zerolfx",
+        "repo": "copilot.el",
+        "type": "github"
+      }
+    },
     "denotational-hardware": {
       "flake": false,
       "locked": {
@@ -541,6 +557,7 @@
         "agda-nixpkgs": "agda-nixpkgs",
         "agda-stdlib": "agda-stdlib",
         "agda-unimath": "agda-unimath",
+        "copilot-el": "copilot-el",
         "denotational-hardware": "denotational-hardware",
         "emacs-overlay": "emacs-overlay",
         "home-manager": "home-manager",

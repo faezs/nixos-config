@@ -49,15 +49,6 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-;; copilot
-;;; Code:
-
-
-;; you can utilize :map :hook and :config to customize copilot
 
 (package! copilot
-  :recipe (:host github :repo "zerolfx/copilot.el" :local-repo "copilot.el" :files ("*.el" "dist")))
-
-
-(provide packages)
-;;; packages.el ends here
+  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
