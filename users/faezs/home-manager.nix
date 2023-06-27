@@ -4,32 +4,33 @@ let
   agda = pkgs.agda.withPackages (p: [
     p.standard-library
     p.agda-categories
-    (p.mkDerivation {
-      pname = "agda-unimath";
-      version = "1.0.0";
-      src = flakes.agda-unimath;
-      meta = {};
-      preBuild = "make src/everything.lagda.md";
-      everythingFile = "./src/everything.lagda.md";
-      libraryFile = "agda-unimath.agda-lib";
-    })
-    (p.mkDerivation {
-      pname = "hardware";
-      version = "1.0.0";
-      src = flakes.denotational-hardware;
-      meta = {};
-      libraryFile = "hardware.agda-lib";
-      buildInputs = [
-        p.standard-library
-      ];
-    })
+    # p.cubical
+    # (p.mkDerivation {
+    #   pname = "agda-unimath";
+    #   version = "1.0.0";
+    #   src = flakes.agda-unimath;
+    #   meta = {};
+    #   preBuild = "make src/everything.lagda.md";
+    #   everythingFile = "./src/everything.lagda.md";
+    #   libraryFile = "agda-unimath.agda-lib";
+    # })
+    # (p.mkDerivation {
+    #   pname = "hardware";
+    #   version = "1.0.0";
+    #   src = flakes.denotational-hardware;
+    #   meta = {};
+    #   libraryFile = "hardware.agda-lib";
+    #   buildInputs = [
+    #     p.standard-library
+    #   ];
+    # })
   ]);
 in
 {
   xdg.enable = true;
 
   home.packages = [
-    pkgs.firefox
+    pkgs.chromium
     pkgs.glances
     pkgs.ripgrep
     agda
@@ -40,6 +41,10 @@ in
     pkgs.cachix
     pkgs.stack
     pkgs.nodejs
+    pkgs.ihp-new
+    pkgs.nixfmt
+    pkgs.xclip
+    pkgs.google-cloud-sdk
   ];
 
   home.sessionVariables = {
@@ -77,6 +82,19 @@ in
           version = "0.0.0";
 	        buildInputs = [ self.s self.dash self.editorconfig self.jsonrpc ];
           src = flakes.copilot-el;
+          extraPackages = [ pkgs.nodejs ];
+          extraConfig = ''
+             (setq copilot-node-executable = "${pkgs.nodejs}/bin/node")
+             (setq copilot--base-dir = "${flakes.copilot-el}")
+             '';
+          installPhase = ''
+              runHook preInstall
+              LISPDIR=$out/share/emacs/site-lisp
+              install -d $LISPDIR
+              cp -r * $LISPDIR
+              runHook postInstall
+              '';
+
         };
       };
   };
@@ -129,5 +147,6 @@ in
       push.default = "tracking";
       init.defaultBranch = "main";
     };
+    lfs.enable = true;
   };
 }

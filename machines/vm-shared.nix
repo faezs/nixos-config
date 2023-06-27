@@ -9,13 +9,19 @@
     package = pkgs.nixFlakes;
     extraOptions = lib.optionalString (config.nix.package == pkgs.nixFlakes)
      "experimental-features = nix-command flakes";
-    trustedUsers = [ "root" "faezs" ];
-    binaryCaches = ["https://cache.garnix.io" "https://nixcache.reflex-frp.org"  "https://cache.iog.io" "https://cache.nixos.org"  "https://private-orbis-tertius.cachix.org" ];
-    binaryCachePublicKeys = ["cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "private-orbis-tertius.cachix.org-1:IMxbOfAbnx9CJn468/itACeSFn8oQiKiNvj1O3p9rqk=" ];
+    settings.trusted-users = [ "root" "faezs" ];
+    settings.substituters = ["https://cache.garnix.io" "https://nixcache.reflex-frp.org"  "https://cache.iog.io" "https://cache.nixos.org" ];
+    settings.trusted-public-keys = ["cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
    };
 
   # We expect to run the VM on hidpi machines.
-  hardware.video.hidpi.enable = true;
+  hardware.sane.enable = true;
+
+  # We want to use the space on the tmpfs for large flakes
+  # boot.tmp.useTmpfs = true;
+  # boot.tmp.tmpfsSize = "100%";
+
+
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -29,7 +35,7 @@
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
+  # replicates the default behaviour.tr
   networking.useDHCP = false;
 
   # Don't require password for sudo
@@ -92,7 +98,11 @@
     GDK_SCALE = "0.5";
     GDK_DPI_SCALE = "0.5";
   };
-  
+
+  services.logind.extraConfig = ''
+    RuntimeDirectorySize=24G
+    '';
+
   services.xserver = {
     enable = true;
     dpi = 254;
@@ -133,13 +143,14 @@
   
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  services.openssh.passwordAuthentication = true;
+  services.openssh.settings.PasswordAuthentication = true;
   services.openssh.permitRootLogin = "no";
 
   # Disable the firewall since we're in a VM and we want to make it
   # easy to visit stuff in here. We only use NAT networking anyways.
   networking.firewall.enable = false;
-  services.tailscale.enable = true;
+  services.tailscale.enable = false;
+  services.kubo.ipfsMountDir = "/ipfs";
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

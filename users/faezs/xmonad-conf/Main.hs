@@ -38,9 +38,9 @@ main = do
 
     myThreeCol =
       ThreeColMid
-        1 -- Master window count
+        3 -- Master window count
         (3 / 100) -- Resize delta
-        (1 / 2) -- Initial column size
+        (1 / 3) -- Initial column size
     myTabbed :: ModifiedLayout (Decoration TabbedDecoration DefaultShrinker) Simplest.Simplest Window
     myTabbed =
       -- FIXME: This doesn't work reliably.
