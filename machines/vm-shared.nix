@@ -2,30 +2,44 @@
 
 {
   # We require 5.14+ for VMware Fusion on M1.
-  boot.kernelPackages = pkgs.linuxPackages_5_15;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # use unstable nix so we can access flakes
   nix = {
     package = pkgs.nixFlakes;
-    extraOptions = lib.optionalString (config.nix.package == pkgs.nixFlakes)
-     "experimental-features = nix-command flakes";
+    extraOptions = ''
+    experimental-features = nix-command flakes
+    keep-outputs = true
+    keep-derivations = true
+    '';
     settings.trusted-users = [ "root" "faezs" ];
-    settings.substituters = ["https://cache.garnix.io" "https://nixcache.reflex-frp.org"  "https://cache.iog.io" "https://cache.nixos.org" ];
-    settings.trusted-public-keys = ["cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+    settings.substituters = ["https://cache.garnix.io" "https://nixcache.reflex-frp.org"  "https://cache.iog.io" "https://cache.nixos.org" "https://mitchellh-nixos-config.cachix.org" ];
+    settings.trusted-public-keys = ["cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+                                    "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI="
+                                    "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+                                    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+                                    "mitchellh-nixos-config.cachix.org-1:bjEbXJyLrL1HZZHBbO4QALnI5faYZppzkU4D2s0G8RQ="
+                                   ];
    };
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "mupdf-1.17.0"
+  ];
 
   # We expect to run the VM on hidpi machines.
   hardware.sane.enable = true;
 
   # We want to use the space on the tmpfs for large flakes
-  # boot.tmp.useTmpfs = true;
-  # boot.tmp.tmpfsSize = "100%";
+  boot.tmp.useTmpfs = true;
+  boot.tmp.tmpfsSize = "100%";
 
 
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  # VMWare and Parallels both oly support 0 for this
+  boot.loader.systemd-boot.consoleMode = "0";
 
   # Define your hostname.
   networking.hostName = "qrn";
@@ -87,10 +101,8 @@
     #   xrandr --addmode Virtual-1 6016x3384_60.00
     #   xrandr -s 6016x3384_60.00
     # '');
-    (writeShellScriptBin "xrandr-mbp" ''
-      xrandr --newmode "3456x2234_60.00"  664.00  3456 3744 4120 4784  2234 2237 2247 2314 -hsync +vsync
-      xrandr --addmode Virtual-1 "3456x2234_60.00"
-      xrandr -s 3456x2234_60.00
+    (writeShellScriptBin "xrandr-auto" ''
+      xrandr --output Virtual-1 --auto
     '')
   ];
 
@@ -105,7 +117,8 @@
 
   services.xserver = {
     enable = true;
-    dpi = 254;
+    layout = "us";
+    dpi = 220;
 
     resolutions = [
       { x = 3456;
@@ -125,7 +138,7 @@
 
     desktopManager = {
       xterm.enable = true;
-      wallpaper.mode = "scale";
+      wallpaper.mode = "fill";
     };
     
     windowManager.xmonad = {
@@ -144,13 +157,13 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = true;
-  services.openssh.permitRootLogin = "no";
+  services.openssh.settings.PermitRootLogin = "no";
 
   # Disable the firewall since we're in a VM and we want to make it
   # easy to visit stuff in here. We only use NAT networking anyways.
   networking.firewall.enable = false;
-  services.tailscale.enable = false;
-  services.kubo.ipfsMountDir = "/ipfs";
+  # services.tailscale.enable = false;
+  # services.kubo.ipfsMountDir = "/ipfs";
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

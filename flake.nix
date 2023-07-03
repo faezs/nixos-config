@@ -14,7 +14,7 @@
      nixos-shell.url = "github:Mic92/nixos-shell";
      agda-stdlib = { url = "github:agda/agda-stdlib"; flake = false; };
      agda-unimath = { url = "github:UniMath/agda-unimath"; flake = false; };
-     denotational-hardware = { url = "github:conal/denotational-hardware"; flake = false; };
+     felix = { url = "github:conal/felix"; flake = false; };
      agda-cubical = { url = "github:agda/cubical"; };
      copilot-el = { url = "github:zerolfx/copilot.el"; flake = false; };
   };

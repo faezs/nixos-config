@@ -4,7 +4,7 @@
     ./vm-shared.nix
   ];
 
-  # boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
+  boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
 
   # Disable the default module and import our override. We have
   # customizations to make this work on aarch64.
@@ -12,10 +12,6 @@
 
   # Interface is this on M1
   networking.interfaces.ens160.useDHCP = true;
-  networking.nat.enable = true;
-  networking.nat.internalInterfaces = ["ve-+"];
-  networking.nat.externalInterface = "ens160";
-
 
   # Lots of stuff that uses aarch64 that claims doesn't work, but actually works.
   nixpkgs.config.allowUnfree = true;
@@ -25,16 +21,16 @@
   virtualisation.vmware.guest.enable = true;
 
   # Share our host filesystem
-  fileSystems."/host" = {
-    fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
-    device = ".host:/";
-    options = [
-      "umask=22"
-      "uid=1000"
-      "gid=1000"
-      "allow_other"
-      "auto_unmount"
-      "defaults"
-    ];
-  };
+  # fileSystems."/host" = {
+  #   fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
+  #   device = ".host:/";
+  #   options = [
+  #     "umask=22"
+  #     "uid=1000"
+  #     "gid=1000"
+  #     "allow_other"
+  #     "auto_unmount"
+  #     "defaults"
+  #   ];
+  # };
 }
