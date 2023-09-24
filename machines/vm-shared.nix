@@ -6,7 +6,7 @@
 
   # use unstable nix so we can access flakes
   nix = {
-    package = pkgs.nixFlakes;
+    package = pkgs.nix;
     extraOptions = ''
     experimental-features = nix-command flakes
     keep-outputs = true
@@ -25,6 +25,13 @@
   nixpkgs.config.permittedInsecurePackages = [
     "mupdf-1.17.0"
   ];
+
+  security.pam.loginLimits = [{
+    domain = "*";
+    type = "-";
+    item = "nofile";
+    value = "500000";
+  }];
 
   # We expect to run the VM on hidpi machines.
   hardware.sane.enable = true;
