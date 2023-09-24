@@ -20,6 +20,33 @@
   # This works through our custom module imported above
   virtualisation.vmware.guest.enable = true;
 
+  networking.nat = {
+    enable = true;
+    internalInterfaces = ["ve-+"];
+    externalInterface = "ens160";
+  };
+
+  networking.bridges.br0.interfaces = [ ];
+
+  networking.interfaces = {
+    br0 = {
+      ipv4.addresses = [{
+        address = "192.168.0.1";
+        prefixLength = 24;
+      }];
+    };
+  };
+
+  networking.firewall.extraCommands = ''
+    # FORWARD rule for traffic from br0 to ens160
+    ${pkgs.iptables}/bin/iptables -A FORWARD -i br0 -o ens160 -j ACCEPT
+
+    # FORWARD rule for established and related traffic from ens160 to br0
+    ${pkgs.iptables}/bin/iptables -A FORWARD -i ens160 -o br0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+  '';
+
+  networking.firewall.interfaces.br0.trusted = true;
+
   # Share our host filesystem
   # fileSystems."/host" = {
   #   fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
