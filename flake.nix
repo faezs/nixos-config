@@ -23,7 +23,7 @@
       flake = false;
     };
     felix = {
-      url = "github:conal/felix";
+      url = "github:muqadma/felix";
       flake = false;
     };
     agda-cubical = { url = "github:agda/cubical"; };
@@ -36,13 +36,34 @@
   outputs =
     inputs@{ self, nixpkgs, home-manager, nix-doom-emacs, sops-nix, ... }:
     let
+
+     flex = ps: (ps.mkDerivation {
+                pname = "felix";
+                version = "1.0.0";
+                src = inputs.felix;
+                meta = {};
+                preBuild = ''
+                  sed -i 's/standard-library-2.0/standard-library/' ./felix.agda-lib
+                  sed -i 's/open import Relation.Binary.PropositionalEquality/open import Relation.Binary.PropositionalEquality hiding (Extensionality)/g' ./src/Felix/Instances/Function/Laws.agda
+                  '';
+                everythingFile = "./src/Felix/All.agda";
+                libraryFile = "./felix.agda-lib";
+                buildInputs = [
+                  ps.standard-library
+                ];
+      });
+
       mkVM = import ./lib/mkvm.nix;
 
       overlays = [
         # inputs.emacs-overlay.overlay
         (final: prev: {
           nix = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.nix;
-          agda = inputs.agda-nixpkgs.legacyPackages.${prev.system}.agda;
+
+          agda = inputs.agda-nixpkgs.legacyPackages.${prev.system}.agda.withPackages (ps: [
+              (ps.standard-library)
+              (flex ps)
+          ]);
         })
       ];
     in {

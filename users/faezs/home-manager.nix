@@ -1,38 +1,5 @@
 { pkgs, flakes, ... }:
 
-let
-    flex = ps: (ps.mkDerivation {
-                pname = "felix";
-                version = "1.0.0";
-                src = flakes.felix;
-                meta = {};
-                patchPhase = ''
-                  sed -i 's/standard-library-2.0/standard-library/' ./felix.agda-lib
-                  sed -i 's/open import Relation.Binary.PropositionalEquality/open import Relation.Binary.PropositionalEquality hiding (Extensionality)/g' ./src/Felix/Instances/Function/Laws.agda
-                  '';
-                everythingFile = "./src/Felix/All.agda";
-                libraryFile = "./felix.agda-lib";
-                buildInputs = [
-                  ps.standard-library
-                ];
-    });
-
-  agda = pkgs.agda.withPackages (p: [
-    p.standard-library
-    p.agda-categories
-    (flex p)
-    # p.cubical
-    # (p.mkDerivation {
-    #   pname = "agda-unimath";
-    #   version = "1.0.0";
-    #   src = flakes.agda-unimath;
-    #   meta = {};
-    #   preBuild = "make src/everything.lagda.md";
-    #   everythingFile = "./src/everything.lagda.md";
-    #   libraryFile = "agda-unimath.agda-lib";
-    # })
-  ]);
-in
 {
   xdg.enable = true;
 
@@ -40,7 +7,7 @@ in
     pkgs.chromium
     pkgs.glances
     pkgs.ripgrep
-    agda
+    pkgs.agda
     pkgs.wget
     pkgs.curl
     pkgs.dmenu
