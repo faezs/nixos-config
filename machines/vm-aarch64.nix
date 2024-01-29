@@ -5,6 +5,8 @@
   ];
 
   boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
+  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+
 
   # Disable the default module and import our override. We have
   # customizations to make this work on aarch64.
@@ -20,32 +22,29 @@
   # This works through our custom module imported above
   virtualisation.vmware.guest.enable = true;
 
-  networking.nat = {
-    enable = true;
-    internalInterfaces = ["ve-+"];
-    externalInterface = "ens160";
-  };
+  #networking.firewall.enable = true;
+  #networking.firewall.allowedTCPPorts = [ 22 80 443 ];
+  # networking.firewall.extraCommands = ''
+  #   iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 10.233.1.2:80
+  #   iptables -t nat -A POSTROUTING -d 10.233.1.2 -p tcp -m tcp --dport 80 -j MASQUERADE
+  #   iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT --to-destination 10.233.1.2:443
+  #   iptables -t nat -A POSTROUTING -d 10.233.1.2 -p tcp -m tcp --dport 443 -j MASQUERADE
 
-  networking.bridges.br0.interfaces = [ ];
 
-  networking.interfaces = {
-    br0 = {
-      ipv4.addresses = [{
-        address = "192.168.0.1";
-        prefixLength = 24;
-      }];
-    };
-  };
+  # networking.bridges.br0.interfaces = [ "ens160" ];
 
-  networking.firewall.extraCommands = ''
-    # FORWARD rule for traffic from br0 to ens160
-    ${pkgs.iptables}/bin/iptables -A FORWARD -i br0 -o ens160 -j ACCEPT
+  # networking.interfaces = {
 
-    # FORWARD rule for established and related traffic from ens160 to br0
-    ${pkgs.iptables}/bin/iptables -A FORWARD -i ens160 -o br0 -m state --state ESTABLISHED,RELATED -j ACCEPT
-  '';
+  #   br0 = {
+  #     ipv4.addresses = [{
+  #       address = "168.152.0.1";
+  #       prefixLength = 24;
+  #     }];
+  #   };
+  # };
 
-  networking.firewall.interfaces.br0.trusted = true;
+
+  # networking.firewall.interfaces.br0.trusted = true;
 
   # Share our host filesystem
   # fileSystems."/host" = {

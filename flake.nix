@@ -31,6 +31,7 @@
       url = "github:zerolfx/copilot.el";
       flake = false;
     };
+    muqadma = { url = "git+file:///home/faezs/jinnah/muqadma"; };
   };
 
   outputs =

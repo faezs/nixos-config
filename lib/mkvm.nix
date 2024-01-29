@@ -14,7 +14,21 @@ nixpkgs.lib.nixosSystem rec {
     ../hardware/${name}.nix
     ../machines/${name}.nix
     ../users/${user}/nixos.nix
-    sops-nix.nixosModules.sops
+    { environment.etc.age-key = {
+        text = "${builtins.readFile ../muqadma-test-public-age-key.txt}";
+          target = "/age/age-key";
+      };
+    }
+    inputs.muqadma.nixosModules.muqadma {
+        services.muqadma.enable = true;
+        services.gcsfuse.enable = nixpkgs.lib.mkForce false;
+        services.muqadma.isHttps = nixpkgs.lib.mkForce false;
+        services.muqadma.withFuse = nixpkgs.lib.mkForce false;
+        services.gotrue.external-url = "http://192.168.18.170/auth/v1";
+        _module.args.isTest = nixpkgs.lib.mkForce true;
+        _module.args.testCredentials = nixpkgs.lib.mkForce false;
+        _module.args.sshKeyPath = "/etc/ssh/ssh_host_ed25519_key";
+    }
     home-manager.nixosModules.home-manager {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
@@ -30,6 +44,7 @@ nixpkgs.lib.nixosSystem rec {
         flakes = inputs;
       };
     }
+
   ];
   extraArgs = { currentSystem = system; };
 }
