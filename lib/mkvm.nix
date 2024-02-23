@@ -27,7 +27,7 @@ nixpkgs.lib.nixosSystem rec {
         services.gotrue.external-url = "http://192.168.18.170/auth/v1";
         _module.args.isTest = nixpkgs.lib.mkForce true;
         _module.args.testCredentials = nixpkgs.lib.mkForce false;
-        _module.args.sshKeyPath = "/etc/ssh/ssh_host_ed25519_key";
+        _module.args.sshKeyPath = nixpkgs.lib.mkForce "/etc/ssh/ssh_host_ed25519_key";
     }
     home-manager.nixosModules.home-manager {
       home-manager.useGlobalPkgs = true;

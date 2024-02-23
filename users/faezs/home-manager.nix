@@ -49,12 +49,13 @@
   programs.doom-emacs = {
     enable = true;
     doomPrivateDir = ../../conf/doom.d;
+    emacsPackage = pkgs.emacs29-pgtk;
     emacsPackagesOverlay = self: super: {
         copilot = self.trivialBuild {
           pname = "copilot";
           ename = "copilot";
           version = "0.0.0";
-	        buildInputs = [ self.s self.dash self.editorconfig self.jsonrpc ];
+	        buildInputs = [ self.s self.dash self.editorconfig self.jsonrpc self.f ];
           src = flakes.copilot-el;
           extraPackages = [ pkgs.nodejs ];
           extraConfig = ''

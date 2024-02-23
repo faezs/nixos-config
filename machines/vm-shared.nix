@@ -80,7 +80,7 @@
   fonts = {
     fontDir.enable = true;
 
-    fonts = [
+    packages = [
       pkgs.fira-code
     ];
   };
@@ -127,7 +127,7 @@
 
   services.xserver = {
     enable = true;
-    layout = "us";
+    xkb.layout = "us";
     dpi = 220;
 
     resolutions = [
