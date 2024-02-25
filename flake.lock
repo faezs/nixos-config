@@ -1634,11 +1634,11 @@
         "wai-middleware-auth": "wai-middleware-auth"
       },
       "locked": {
-        "lastModified": 1708674460,
-        "narHash": "sha256-NXTA9hWHSRX+PG6CeH0MT2T1PQc0/UbCWOE+zsvzjPo=",
-        "ref": "refs/heads/integrate-gotrue-with-db",
-        "rev": "6d8360824716df1981ef31c4b35733e345ada41c",
-        "revCount": 434,
+        "lastModified": 1708764615,
+        "narHash": "sha256-ZRWXdl/Rhcr1rzRvTGw7JIHh2a+XPQqDVNEprZuzNSE=",
+        "ref": "refs/heads/terraform-fix",
+        "rev": "076840a6cc62085721c5c40b6aa0b917bec3b9dd",
+        "revCount": 440,
         "type": "git",
         "url": "file:///home/faezs/jinnah/muqadma"
       },
@@ -2308,16 +2308,16 @@
     },
     "nixpkgs_24": {
       "locked": {
-        "lastModified": 1708475490,
-        "narHash": "sha256-g1v0TsWBQPX97ziznfJdWhgMyMGtoBFs102xSYO4syU=",
+        "lastModified": 1708566995,
+        "narHash": "sha256-e/THimsoxxMAHSbwMKov5f5Yg+utTj6XVGEo24Lhx+0=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "0e74ca98a74bc7270d28838369593635a5db3260",
+        "rev": "3cb4ae6689d2aa3f363516234572613b31212b78",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "nixos-unstable",
+        "ref": "nixos-23.11",
         "repo": "nixpkgs",
         "type": "github"
       }

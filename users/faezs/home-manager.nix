@@ -49,7 +49,7 @@
   programs.doom-emacs = {
     enable = true;
     doomPrivateDir = ../../conf/doom.d;
-    emacsPackage = pkgs.emacs29-pgtk;
+    emacsPackage = pkgs.emacs29;
     emacsPackagesOverlay = self: super: {
         copilot = self.trivialBuild {
           pname = "copilot";
