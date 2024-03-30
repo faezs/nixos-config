@@ -1634,11 +1634,11 @@
         "wai-middleware-auth": "wai-middleware-auth"
       },
       "locked": {
-        "lastModified": 1708764615,
-        "narHash": "sha256-ZRWXdl/Rhcr1rzRvTGw7JIHh2a+XPQqDVNEprZuzNSE=",
-        "ref": "refs/heads/terraform-fix",
-        "rev": "076840a6cc62085721c5c40b6aa0b917bec3b9dd",
-        "revCount": 440,
+        "lastModified": 1711759757,
+        "narHash": "sha256-Arub/L/GPj6RX0xw8xzsxvzDUj4oU+tW84VahQBnqKY=",
+        "ref": "refs/heads/web-ui",
+        "rev": "01cf05927ce4982539905db40efb08b5a70a2493",
+        "revCount": 492,
         "type": "git",
         "url": "file:///home/faezs/jinnah/muqadma"
       },
