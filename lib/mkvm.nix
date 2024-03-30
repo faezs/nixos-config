@@ -24,6 +24,8 @@ nixpkgs.lib.nixosSystem rec {
         services.gcsfuse.enable = nixpkgs.lib.mkForce false;
         services.muqadma.isHttps = nixpkgs.lib.mkForce false;
         services.muqadma.withFuse = nixpkgs.lib.mkForce false;
+        services.postgresql.identMap = "qrn faezs muqadma";
+        services.postgresql.authentication = "local all muqadma peer  map=qrn";
         services.gotrue.external-url = "http://192.168.18.170/auth/v1";
         _module.args.isTest = nixpkgs.lib.mkForce true;
         _module.args.testCredentials = nixpkgs.lib.mkForce false;
