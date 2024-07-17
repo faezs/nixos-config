@@ -2,7 +2,7 @@ cabal-version:      3.0
 name:               xmonad-conf
 version:            0.1.0.0
 license:            BSD-3-Clause
-author:             Sridhar Ratnakumar
+author:             Faez Shakil
 maintainer:         faez.shakil@gmail.com
 extra-source-files: CHANGELOG.md
 

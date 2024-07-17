@@ -19,6 +19,7 @@
     pkgs.nixfmt
     pkgs.xclip
     pkgs.google-cloud-sdk
+    pkgs.gh
   ];
 
   home.sessionVariables = {

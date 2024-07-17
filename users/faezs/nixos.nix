@@ -7,7 +7,7 @@
   users.users.faezs = {
     isNormalUser = true;
     home = "/home/faezs";
-    extraGroups = [ "docker" "wheel" "scanner" "lp" ];
+    extraGroups = [ "docker" "wheel" "scanner" "lp" "keys" ];
     shell = pkgs.bash;
   };
 

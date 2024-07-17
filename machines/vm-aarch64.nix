@@ -22,6 +22,9 @@
   # This works through our custom module imported above
   virtualisation.vmware.guest.enable = true;
 
+  systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp/nix-daemon";
+
+
   #networking.firewall.enable = true;
   #networking.firewall.allowedTCPPorts = [ 22 80 443 ];
   # networking.firewall.extraCommands = ''
