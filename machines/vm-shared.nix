@@ -90,7 +90,6 @@
   environment.systemPackages = with pkgs; [
     gnumake
     killall
-    niv
     rxvt_unicode
     xclip
     zip

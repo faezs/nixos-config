@@ -105,8 +105,8 @@
     config = {
       whitelist = {
         prefix = [
-	        "$HOME/platonic/snoiks"
 	        "$HOME/ee/chopaan"
+          "$HOME/jinnah/muqadma"
 	      ];
 	      exact = ["$HOME/.envrc"];
       };
@@ -121,6 +121,7 @@
       color.ui = true;
       github.user = "faezs";
       push.default = "tracking";
+      push.autoSetupRemote = true;
       init.defaultBranch = "main";
     };
     lfs.enable = true;

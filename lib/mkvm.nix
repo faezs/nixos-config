@@ -19,14 +19,26 @@ nixpkgs.lib.nixosSystem rec {
           target = "/age/age-key";
       };
     }
+    # ({ config,  ...}: {
+    #   services.onlyoffice.enable = nixpkgs.lib.mkForce true;
+    #   services.onlyoffice.enableExampleServer = nixpkgs.lib.mkForce true;
+    #   services.onlyoffice.examplePort = nixpkgs.lib.mkForce 9999;
+    #   services.onlyoffice.port = nixpkgs.lib.mkForce 9998;
+    #   services.onlyoffice.jwtSecretFile = config.sops.secrets.jwk-pk.path;
+    # })
     inputs.muqadma.nixosModules.muqadma {
         services.muqadma.enable = true;
         services.gcsfuse.enable = nixpkgs.lib.mkForce false;
         services.muqadma.isHttps = nixpkgs.lib.mkForce false;
         services.muqadma.withFuse = nixpkgs.lib.mkForce false;
-        services.postgresql.identMap = "qrn faezs muqadma";
+        services.muqadma.serve-muqadma-port = nixpkgs.lib.mkForce 8088;
+        services.postgresql.identMap = ''
+        qrn faezs muqadma
+        qrn muqadma muqadma
+        '';
         services.postgresql.authentication = "local all muqadma peer  map=qrn";
-        services.gotrue.external-url = "http://192.168.18.170/auth/v1";
+        services.gotrue.external-url = "http://192.168.18.170/";
+        services.gotrue.uri-allow-list = "http://localhost*,http://localhost:8088/*";
         _module.args.isTest = nixpkgs.lib.mkForce true;
         _module.args.testCredentials = nixpkgs.lib.mkForce false;
         _module.args.sshKeyPath = nixpkgs.lib.mkForce "/etc/ssh/ssh_host_ed25519_key";
