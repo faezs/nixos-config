@@ -2,6 +2,13 @@
 # particular architecture.
 name: { nixpkgs, home-manager, inputs, system, user, overlays, sops-nix, ...}:
 
+# let p = import inputs.nixpkgs-in { inherit system overlays;
+#                          config = { allowUnfree = true;
+#                                     allowUnsupportedSystem = true;
+#                                   };
+#                        };
+
+# in
 nixpkgs.lib.nixosSystem rec {
   inherit system;
 
@@ -9,16 +16,25 @@ nixpkgs.lib.nixosSystem rec {
     # Apply our overlays. Overlays are keyed by system type so we have
     # to go through and apply our system type. We do this first so
     # the overlays are available globally.
-    { nixpkgs.overlays = overlays; }
 
+    # { nixpkgs.overlays = overlays; }
     ../hardware/${name}.nix
     ../machines/${name}.nix
     ../users/${user}/nixos.nix
-    { environment.etc.age-key = {
+    ({ config, ...}: {
+      environment.etc.age-key = {
         text = "${builtins.readFile ../muqadma-test-public-age-key.txt}";
-          target = "/age/age-key";
+        target = "/age/age-key";
       };
-    }
+
+      _module.args.pkgs = nixpkgs.lib.mkForce (import nixpkgs { inherit system overlays;
+                                                                config = { allowUnfree = true;
+                                                                           allowUnsupportedSystem = true;
+
+                                                                         };
+                                                              });
+      _module.args.system = nixpkgs.lib.mkForce system;
+    })
     # ({ config,  ...}: {
     #   services.onlyoffice.enable = nixpkgs.lib.mkForce true;
     #   services.onlyoffice.enableExampleServer = nixpkgs.lib.mkForce true;
@@ -26,6 +42,7 @@ nixpkgs.lib.nixosSystem rec {
     #   services.onlyoffice.port = nixpkgs.lib.mkForce 9998;
     #   services.onlyoffice.jwtSecretFile = config.sops.secrets.jwk-pk.path;
     # })
+    inputs.ghaar.nixosModules.simplex-lan
     inputs.muqadma.nixosModules.muqadma {
         services.muqadma.enable = true;
         services.gcsfuse.enable = nixpkgs.lib.mkForce false;
@@ -56,6 +73,8 @@ nixpkgs.lib.nixosSystem rec {
       };
       home-manager.extraSpecialArgs = {
         flakes = inputs;
+        inherit system;
+        #claude-code = p.claude-code;
       };
     }
 

@@ -24,6 +24,11 @@
 
   systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp/nix-daemon";
 
+  systemd.coredump.enable = true;
+  security.pam.loginLimits = [
+    { domain = "*"; item = "core"; type = "soft"; value = "unlimited"; }
+  ];
+  systemd.extraConfig = "DefaultLimitCORE=1000000";
 
   #networking.firewall.enable = true;
   #networking.firewall.allowedTCPPorts = [ 22 80 443 ];

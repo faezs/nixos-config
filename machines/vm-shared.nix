@@ -1,4 +1,4 @@
-{ config, pkgs, currentSystem, lib, ... }:
+{ config, pkgs, system, lib, ... }:
 
 {
   # We require 5.14+ for VMware Fusion on M1.
@@ -90,7 +90,7 @@
   environment.systemPackages = with pkgs; [
     gnumake
     killall
-    rxvt_unicode
+    rxvt-unicode-unwrapped
     xclip
     zip
     unzip
@@ -140,7 +140,7 @@
       lightdm.enable = true;
       sessionCommands = ''
         ${pkgs.xorg.xset}/bin/xset r rate 200 40
-      ''+(if currentSystem == "aarch64-linux" then ''
+      ''+(if system == "aarch64-linux" then ''
         ${pkgs.xorg.xrandr}/bin/xrandr -s '3456x2234'
       '' else "");
     };

@@ -1,4 +1,4 @@
-{ pkgs, flakes, ... }:
+{ pkgs, flakes, claude-code, ... }:
 
 {
   xdg.enable = true;
@@ -20,6 +20,7 @@
     pkgs.xclip
     pkgs.google-cloud-sdk
     pkgs.gh
+    pkgs.claude-code
   ];
 
   home.sessionVariables = {
@@ -49,30 +50,7 @@
 
   programs.doom-emacs = {
     enable = true;
-    doomPrivateDir = ../../conf/doom.d;
-    emacsPackage = pkgs.emacs29;
-    emacsPackagesOverlay = self: super: {
-        copilot = self.trivialBuild {
-          pname = "copilot";
-          ename = "copilot";
-          version = "0.0.0";
-	        buildInputs = [ self.s self.dash self.editorconfig self.jsonrpc self.f ];
-          src = flakes.copilot-el;
-          extraPackages = [ pkgs.nodejs ];
-          extraConfig = ''
-             (setq copilot-node-executable = "${pkgs.nodejs}/bin/node")
-             (setq copilot--base-dir = "${flakes.copilot-el}")
-             '';
-          installPhase = ''
-              runHook preInstall
-              LISPDIR=$out/share/emacs/site-lisp
-              install -d $LISPDIR
-              cp -r * $LISPDIR
-              runHook postInstall
-              '';
-
-        };
-      };
+    doomDir = ../../conf/doom.d;
   };
 
   programs.rofi = {

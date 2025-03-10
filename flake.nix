@@ -2,7 +2,7 @@
   description = "NixOS systems - Faez Shakil";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     agda-nixpkgs.url = "github:nixos/nixpkgs/1ffba9f2f683063c2b14c9f4d12c55ad5f4ed887";
     sops-nix.url = "github:Mic92/sops-nix";
@@ -10,15 +10,14 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
-    nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
-    nix-straight = {
-      url = "github:codingkoi/nix-straight.el?ref=codingkoi/apply-librephoenixs-fix";
-      flake = false;
-    };
-    nix-doom-emacs.inputs.nix-straight.follows = "nix-straight";
+    nix-doom-emacs.url = "github:marienz/nix-doom-emacs-unstraightened";
+    # Optional, to download less. Neither the module nor the overlay uses this input.
+    nix-doom-emacs.inputs.nixpkgs.follows = "";
     nixos-shell.url = "github:Mic92/nixos-shell";
     nixos-shell.inputs.nixpkgs.follows = "nixpkgs";
+    agda = {
+      url = "github:agda/agda/9e0d5a54f8b811dbccf8c42f859b44f9c34a3ee8";
+    };
     agda-stdlib = {
       url = "github:agda/agda-stdlib";
       flake = false;
@@ -37,6 +36,8 @@
       flake = false;
     };
     muqadma = { url = "git+file:///home/faezs/jinnah/muqadma"; };
+    ghaar = { url = "git+file:///home/faezs/ghaar"; };
+    lab1 = { url = "git+file:///home/faezs/library/1lab"; };
   };
 
   outputs =
@@ -57,6 +58,17 @@
                 buildInputs = [
                   ps.standard-library
                 ];
+     });
+     theSingularLab = ps: (ps.mkDerivation {
+                pname = "1lab";
+                version = "1.0.0";
+                src = inputs.lab1;
+                meta = {};
+                everythingFile = "./src/Felix/All.agda";
+                libraryFile = "./felix.agda-lib";
+                buildInputs = [
+                  ps.standard-library
+                ];
       });
 
       mkVM = import ./lib/mkvm.nix;
@@ -64,13 +76,14 @@
       overlays = [
         # inputs.emacs-overlay.overlay
         (final: prev: {
-          nix = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.nix;
-
+          nix = inputs.nixpkgs.legacyPackages.${prev.system}.nix;
+          # agda = inputs.agda.packages.${prev.system}.default;
           agda = inputs.agda-nixpkgs.legacyPackages.${prev.system}.agda.withPackages (ps: [
               (ps.standard-library)
               (flex ps)
           ]);
         })
+        # inputs.agda.overlays.default
       ];
     in {
       nixosConfigurations.vm-aarch64 = mkVM "vm-aarch64" rec {
