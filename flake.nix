@@ -35,9 +35,10 @@
       url = "github:zerolfx/copilot.el";
       flake = false;
     };
+    nix = { url = "github:NixOS/nix"; };
     muqadma = { url = "git+file:///home/faezs/jinnah/muqadma"; };
     ghaar = { url = "git+file:///home/faezs/ghaar"; };
-    lab1 = { url = "git+file:///home/faezs/library/1lab"; };
+    # lab1 = { url = "github:faezs/1lab/geometric-deep-learning"; };
   };
 
   outputs =
@@ -59,24 +60,13 @@
                   ps.standard-library
                 ];
      });
-     theSingularLab = ps: (ps.mkDerivation {
-                pname = "1lab";
-                version = "1.0.0";
-                src = inputs.lab1;
-                meta = {};
-                everythingFile = "./src/Felix/All.agda";
-                libraryFile = "./felix.agda-lib";
-                buildInputs = [
-                  ps.standard-library
-                ];
-      });
 
       mkVM = import ./lib/mkvm.nix;
 
       overlays = [
         # inputs.emacs-overlay.overlay
         (final: prev: {
-          nix = inputs.nixpkgs.legacyPackages.${prev.system}.nix;
+          nix = inputs.nix.packages.${prev.system}.nix;
           # agda = inputs.agda.packages.${prev.system}.default;
           agda = inputs.agda-nixpkgs.legacyPackages.${prev.system}.agda.withPackages (ps: [
               (ps.standard-library)

@@ -42,7 +42,7 @@ nixpkgs.lib.nixosSystem rec {
     #   services.onlyoffice.port = nixpkgs.lib.mkForce 9998;
     #   services.onlyoffice.jwtSecretFile = config.sops.secrets.jwk-pk.path;
     # })
-    inputs.ghaar.nixosModules.simplex-lan
+    #inputs.ghaar.nixosModules.simplex-lan
     inputs.muqadma.nixosModules.muqadma {
         services.muqadma.enable = true;
         services.gcsfuse.enable = nixpkgs.lib.mkForce false;
